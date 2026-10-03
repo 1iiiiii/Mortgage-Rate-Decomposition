@@ -1,0 +1,11 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Secrets: the FRED API key lives in .env, never in the repo
+.env
+
+# macOS
+.DS_Store
