@@ -1,8 +1,6 @@
-# [WRITE headline: the finding, not the topic]
+# Expectations of real interest rate and inflation expectations are driving up the rates
 
-[WRITE one or two sentences on the question this repository answers.]
-
-Published post: [WRITE link to the post on https://1iiiiii.github.io/Personal-Website/]
+Published post: [https://1iiiiii.github.io/Personal-Website/blog/posts/post4/]
 
 ## Data
 
@@ -29,12 +27,10 @@ The Cleveland Fed series come from the Haubrich, Pennacchi & Ritchken (2012) ter
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env      # then paste your FRED API key into .env
+cp .env.example .env      # FRED API key into .env
 ```
 
 ## Replication
-
-Open the notebooks from `code/` (they build paths from `Path.cwd().parent`) and run them in order:
 
 | Notebook | Reads | Writes |
 |---|---|---|
@@ -42,13 +38,6 @@ Open the notebooks from `code/` (they build paths from `Path.cwd().parent`) and 
 | `code/02_fetch_acm.ipynb` | NY Fed ACM Excel file | `data/raw/acm.csv` |
 | `code/03_build_series.ipynb` | `data/raw/` | `data/processed/monthly.csv`, `data/processed/contributions.csv`, `results/tables/headline.csv`, `spread_stats.csv`, `residual.csv`, `contrib_shares.csv`, `model_crosscheck.csv` |
 | `code/04_figures.ipynb` | `data/raw/`, `data/processed/` | `results/figures/fig1_levels.png`, `fig2_contributions.png`, `fig3_spread_drivers.png` |
-
-To run everything from the terminal:
-
-```bash
-cd code
-for n in 01_fetch_fred 02_fetch_acm 03_build_series 04_figures; do jupyter nbconvert --to notebook --execute --inplace $n.ipynb; done
-```
 
 ## Layout
 
