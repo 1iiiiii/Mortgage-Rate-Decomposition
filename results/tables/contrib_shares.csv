@@ -1,0 +1,8 @@
+,label,peak_2021-01_to_2023-10_pp,peak_2021-01_to_2023-10_pct,latest_2021-01_to_2026-09_pp,latest_2021-01_to_2026-09_pct,ytd_2026-01_to_2026-09_pp,ytd_2026-01_to_2026-09_pct
+exp_real_path_10Y,Expected real short rates,2.03,41.0,2.31,56.0,0.49,65.0
+exp_infl_10Y,Expected inflation,0.98,20.0,1.19,29.0,0.24,32.0
+real_risk_prem_10Y,Real risk premium,0.29,6.0,0.17,4.0,0.09,11.0
+infl_risk_prem_10Y,Inflation risk premium,0.07,1.0,0.07,2.0,0.01,1.0
+cleveland_resid,Model residual,0.35,7.0,0.17,4.0,-0.05,-7.0
+spread,Mortgage-Treasury spread,1.17,24.0,0.22,5.0,-0.02,-2.0
+FRM_30Y,Total: 30-year mortgage rate,4.88,100.0,4.13,100.0,0.76,100.0

@@ -6,14 +6,22 @@ Published post: [WRITE link to the post on https://1iiiiii.github.io/Personal-We
 
 ## Data
 
-| Source | Series / file | What it contains | Access | Period |
+All FRED series are downloaded with `fredapi`; the ACM file is downloaded from the NY Fed with `requests` (access date: the run date of the fetch notebooks).
+
+| Source | Series | What it contains | Native frequency | Period used |
 |---|---|---|---|---|
-| FRED (St. Louis Fed) | `MORTGAGE30US` | 30-year fixed mortgage rate, weekly (Freddie Mac PMMS) | `fredapi` | [WRITE] |
-| FRED | `DGS10` | 10-year Treasury constant-maturity yield, daily | `fredapi` | [WRITE] |
-| FRED | `DFII10` | 10-year TIPS yield (real), daily | `fredapi` | [WRITE] |
-| FRED | `T10YIE` | 10-year breakeven inflation, daily | `fredapi` | [WRITE] |
-| FRED | `WSHOMCB` | Fed holdings of agency MBS, weekly | `fredapi` | [WRITE] |
-| NY Fed | ACM term premium | 10-year expected short rate and term premium | CSV from URL | [WRITE] |
+| Freddie Mac PMMS | `MORTGAGE30US` | 30-year fixed mortgage rate | weekly (Thu) | 2000-01 to 2026-09 (Fig 1); 2003-01 onward elsewhere |
+| Federal Reserve Board H.15 | `DGS10` | 10-year Treasury constant-maturity yield | daily | same as above |
+| Federal Reserve Board H.15 | `DFII10` | 10-year TIPS yield (real), cross-check | daily | 2003-01 to 2026-09 |
+| FRED (derived) | `T10YIE` | 10-year breakeven inflation (`DGS10` − `DFII10`), cross-check | daily | 2003-01 to 2026-09 |
+| Federal Reserve Board H.4.1 | `WSHOMCB` | Fed holdings of agency MBS | weekly (Wed) | 2003-01 to 2026-09 |
+| Federal Reserve Bank of Cleveland | `EXPINF10YR` | 10-year expected inflation | monthly | 2003-01 to 2026-09 |
+| Federal Reserve Bank of Cleveland | `REAINTRATREARAT10Y` | 10-year real interest rate (includes the real risk premium) | monthly | 2003-01 to 2026-09 |
+| Federal Reserve Bank of Cleveland | `TENEXPCHAREARISPRE` | 10-year real risk premium | monthly | 2003-01 to 2026-09 |
+| Federal Reserve Bank of Cleveland | `TENEXPCHAINFRISPRE` | 10-year inflation risk premium | monthly | 2003-01 to 2026-09 |
+| Federal Reserve Bank of New York | `ACMTermPremium.xls`, sheet *ACM Daily* (`ACMY10`, `ACMRNY10`, `ACMTP10`) | Adrian–Crump–Moench fitted 10-year yield, expected short-rate path and term premium; model cross-check | daily | 2003-01 to 2026-09 |
+
+The Cleveland Fed series come from the Haubrich, Pennacchi & Ritchken (2012) term-structure model.
 
 ## Setup
 
@@ -26,19 +34,26 @@ cp .env.example .env      # then paste your FRED API key into .env
 
 ## Replication
 
-Run the scripts in order from the repository root:
+Open the notebooks from `code/` (they build paths from `Path.cwd().parent`) and run them in order:
 
-| Script | Reads | Writes |
+| Notebook | Reads | Writes |
 |---|---|---|
-| `code/01_fetch_fred.py` | FRED API | [WRITE] |
-| `code/02_fetch_acm.py` | NY Fed CSV | [WRITE] |
-| `code/03_build_series.py` | `data/raw/` | [WRITE] |
-| `code/04_figures.py` | `data/processed/` | `results/figures/fig1–3.png`, `results/tables/` |
+| `code/01_fetch_fred.ipynb` | FRED API | `data/raw/<SERIES_ID>.csv` (nine files) |
+| `code/02_fetch_acm.ipynb` | NY Fed ACM Excel file | `data/raw/acm.csv` |
+| `code/03_build_series.ipynb` | `data/raw/` | `data/processed/monthly.csv`, `data/processed/contributions.csv`, `results/tables/headline.csv`, `spread_stats.csv`, `residual.csv`, `contrib_shares.csv`, `model_crosscheck.csv` |
+| `code/04_figures.ipynb` | `data/raw/`, `data/processed/` | `results/figures/fig1_levels.png`, `fig2_contributions.png`, `fig3_spread_drivers.png` |
+
+To run everything from the terminal:
+
+```bash
+cd code
+for n in 01_fetch_fred 02_fetch_acm 03_build_series 04_figures; do jupyter nbconvert --to notebook --execute --inplace $n.ipynb; done
+```
 
 ## Layout
 
 ```
-code/             numbered scripts, run in order; plot_style.py holds the shared theme
+code/             numbered notebooks, run in order; plot_style.py holds the shared theme
 data/raw/         as downloaded, never edited by hand
 data/processed/   analysis-ready series
 results/figures/  PNGs embedded in the post
